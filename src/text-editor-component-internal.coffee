@@ -17,7 +17,7 @@ BlockDecorationsComponent = require './block-decorations-component'
 LineTopIndex = require 'line-top-index'
 
 module.exports =
-class TextEditorComponent
+class TextEditorComponentInternal
   scrollSensitivity: 0.4
   cursorBlinkPeriod: 800
   cursorBlinkResumeDelay: 100
@@ -40,7 +40,7 @@ class TextEditorComponent
   Object.defineProperty @prototype, "domNode",
     get: -> @domNodeValue
     set: (domNode) ->
-      @assert domNode?, "TextEditorComponent::domNode was set to null."
+      @assert domNode?, "TextEditorComponentInternal::domNode was set to null."
       @domNodeValue = domNode
 
   constructor: ({@editor, @hostElement, @rootElement, @stylesElement, @useShadowDOM, tileSize, @views, @themes, @config, @workspace, @assert, @grammars}) ->
@@ -702,7 +702,7 @@ class TextEditorComponent
 
   isVisible: ->
     # Investigating an exception that occurs here due to ::domNode being null.
-    @assert @domNode?, "TextEditorComponent::domNode was null.", (error) =>
+    @assert @domNode?, "TextEditorComponentInternal::domNode was null.", (error) =>
       error.metadata = {@initialized}
 
     @domNode? and (@domNode.offsetHeight > 0 or @domNode.offsetWidth > 0)
