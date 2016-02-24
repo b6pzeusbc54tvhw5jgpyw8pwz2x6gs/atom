@@ -38,9 +38,9 @@ class TextEditorElement extends HTMLElement
     @setAttribute('tabindex', -1)
 
   initializeContent: (attributes) ->
-    if @config.get('editor.useShadowDOM')
-      @useShadowDOM = true
+    @useShadowDOM ?= @config.get('editor.useShadowDOM')
 
+    if @useShadowDOM
       unless ShadowStyleSheet?
         ShadowStyleSheet = document.createElement('style')
         ShadowStyleSheet.textContent = @themes.loadLessStylesheet(require.resolve('../static/text-editor-shadow.less'))
@@ -58,8 +58,6 @@ class TextEditorElement extends HTMLElement
       @shadowRoot.appendChild(@stylesElement)
       @shadowRoot.appendChild(@rootElement)
     else
-      @useShadowDOM = false
-
       @classList.add('editor', 'editor-colors')
       @stylesElement = document.head.querySelector('atom-styles')
       @rootElement = this
@@ -86,7 +84,7 @@ class TextEditorElement extends HTMLElement
     @subscriptions.add @component.onDidChangeScrollLeft =>
       @emitter.emit("did-change-scroll-left", arguments...)
 
-  initialize: (model, {@views, @config, @themes, @workspace, @assert, @styles, @grammars}) ->
+  initialize: (model, {@views, @config, @themes, @workspace, @assert, @styles, @grammars}, @useShadowDOM) ->
     throw new Error("Must pass a config parameter when initializing TextEditorElements") unless @views?
     throw new Error("Must pass a config parameter when initializing TextEditorElements") unless @config?
     throw new Error("Must pass a themes parameter when initializing TextEditorElements") unless @themes?
