@@ -23,6 +23,7 @@ module.exports =
 # only be exported when not running as a child node process
 unless process.env.ATOM_SHELL_INTERNAL_RUN_AS_NODE
   module.exports.Task = require '../src/task'
+  module.exports.TextEditorComponent = require '../src/text-editor-component'
 
   TextEditor = (params) ->
     atom.workspace.buildTextEditor(params)
